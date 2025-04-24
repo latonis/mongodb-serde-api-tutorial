@@ -1,4 +1,4 @@
-use std::{env, str::FromStr};
+use std::env;
 
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use futures::stream::TryStreamExt;
@@ -183,7 +183,7 @@ async fn update_shipwreck(
 ) -> Result<HttpResponse, actix_web::Error> {
     let id_str = path.into_inner();
     let object_id =
-        ObjectId::from_str(&id_str).map_err(|_| actix_web::error::ErrorBadRequest("Invalid ID"))?;
+        ObjectId::parse_str(&id_str).map_err(|_| actix_web::error::ErrorBadRequest("Invalid ID"))?;
     let collection = state
         .client
         .database(state.db_name.as_str())
@@ -227,7 +227,7 @@ async fn get_shipwreck(
 ) -> Result<HttpResponse, actix_web::Error> {
     let id_str = path.into_inner();
     let object_id =
-        ObjectId::from_str(&id_str).map_err(|_| actix_web::error::ErrorBadRequest("Invalid ID"))?;
+        ObjectId::parse_str(&id_str).map_err(|_| actix_web::error::ErrorBadRequest("Invalid ID"))?;
     let collection = state
         .client
         .database(state.db_name.as_str())
@@ -254,7 +254,7 @@ async fn delete_shipwreck(
 ) -> Result<HttpResponse, actix_web::Error> {
     let id_str = path.into_inner();
     let object_id =
-        ObjectId::from_str(&id_str).map_err(|_| actix_web::error::ErrorBadRequest("Invalid ID"))?;
+        ObjectId::parse_str(&id_str).map_err(|_| actix_web::error::ErrorBadRequest("Invalid ID"))?;
     let collection = state
         .client
         .database(state.db_name.as_str())
